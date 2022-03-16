@@ -1,0 +1,24 @@
+name: CTest Actions Bug Demo
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  RunCTest:
+    name: Windows CTest Actions Bug Demo
+    strategy:
+      fail-fast: false
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure
+        run: cmake -B build
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        working-directory: ${{ github.workspace }}/build
+        run: ctest -VV
