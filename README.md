@@ -45,3 +45,18 @@ Errors while running CTest
 ```
 
 When the same set of steps is run through GitHub Actions, the failure output of `test_demo` is dropped.
+
+Here is an [Actions Log](https://github.com/jgehrig/ctest-actions-bug/runs/5574254973?check_suite_focus=true#step:6:16) with missing output:
+```
+...
+Checking test dependency graph end
+test 1
+    Start 1: test_demo
+
+    1: Test command: D:\a\ctest-actions-bug\ctest-actions-bug\build\Debug\test_demo.exe
+    1: Test timeout computed to be: 10000000                    <==== MISSING OUTPUT BELOW THIS LINE
+    1/1 Test #1: test_demo ........................***Failed    0.52 sec
+
+    0% tests passed, 1 tests failed out of 1
+...
+```
