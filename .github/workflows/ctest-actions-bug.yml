@@ -26,11 +26,11 @@ jobs:
           Add-Content -Path $env:GITHUB_PATH -Value "${{ env.qt_dir }}\bin"
 
       - name: Configure
-        run: cmake -B build
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build
         run: cmake --build build
 
       - name: Test
         working-directory: ${{ github.workspace }}/build
-        run: ctest -VV
+        run: ctest -VV -C Debug
