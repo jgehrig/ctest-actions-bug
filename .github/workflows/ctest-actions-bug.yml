@@ -2,9 +2,9 @@ name: CTest Actions Bug Demo
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   RunCTest:
