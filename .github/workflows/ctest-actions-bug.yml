@@ -15,6 +15,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install Qt
+        env:
+          QT_DIR: ${{ github.workspace }}\5.15.2\msvc2019_64
+        run: |
+          pip install aqtinstall
+          python -m aqt install 5.15.2 windows desktop win64_msvc2019_64
+          Add-Content -Path $env:GITHUB_ENV -Value "CMAKE_PREFIX_PATH=$env:QT_DIR;$env:QT_DIR\lib\cmake"
+          Add-Content -Path $env:GITHUB_PATH -Value "${{ env.qt_dir }}"
+          Add-Content -Path $env:GITHUB_PATH -Value "${{ env.qt_dir }}\bin"
+
       - name: Configure
         run: cmake -B build
 
