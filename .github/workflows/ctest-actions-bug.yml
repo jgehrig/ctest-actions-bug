@@ -34,6 +34,6 @@ jobs:
       - name: Test
         working-directory: ${{ github.workspace }}/build
         run: |
-          ctest --output-on-failure -o test_output.txt -C Debug
+          ctest --output-on-failure --output-log test_output.txt -C Debug
           type test_output.txt
 
