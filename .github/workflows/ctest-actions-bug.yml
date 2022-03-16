@@ -1,5 +1,11 @@
 name: CTest Actions Bug Demo
 
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 jobs:
   RunCTest:
     name: Windows CTest Actions Bug Demo
