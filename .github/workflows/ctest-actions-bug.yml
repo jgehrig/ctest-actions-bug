@@ -33,7 +33,10 @@ jobs:
 
       - name: Test
         working-directory: ${{ github.workspace }}/build
-        run: |
-          ctest --output-on-failure --output-log test_output.txt -C Debug
-          type test_output.txt
+        env:
+          CTEST_OUTPUT_ON_FAILURE: 1
+        run: ctest -VV --output-log test_output.txt -C Debug
 
+      - name: Print Test Output
+        working-directory: ${{ github.workspace }}/build
+        run: type test_output.txt
