@@ -42,4 +42,4 @@ jobs:
         if: failure()
         with:
           name: CTest Logs
-          path: log.txt
+          path: build/Testing/Temporary/LastTest.log
