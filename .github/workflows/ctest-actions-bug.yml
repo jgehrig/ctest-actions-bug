@@ -34,7 +34,7 @@ jobs:
       - name: Test
         working-directory: ${{ github.workspace }}/build
         run: |
-          ctest --output-on-failure --output-log log.txt | Out-Null
+          ctest -VV -C Debug --output-log log.txt | Out-Null
           type log.txt
 
       - name: Upload Artifacts
