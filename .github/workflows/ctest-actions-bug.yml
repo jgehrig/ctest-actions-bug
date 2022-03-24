@@ -36,6 +36,8 @@ jobs:
           Add-Content -Path $env:GITHUB_PATH -Value "${{ env.qt_dir }}\bin"
 
       - name: Configure
+        env:
+          CMAKE_GENERATOR: MinGW Makefiles
         run: cmake -B build -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build
