@@ -10,5 +10,5 @@ add_executable(test_demo test_demo.cpp)
 target_link_libraries(test_demo Qt5::Test)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND})
-add_test(NAME test_demo COMMAND test_demo)
+add_test(NAME test_demo COMMAND test_demo -tap)
 add_dependencies(check test_demo)

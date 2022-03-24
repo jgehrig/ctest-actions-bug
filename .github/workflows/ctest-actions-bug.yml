@@ -15,17 +15,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Qt
+      - name: Cached Qt Install
+        id: qt-cache
+        uses: actions/cache@v3
         env:
-          QT_DIR: ${{ github.workspace }}\5.15.2\msvc2019_64
+          QT_DIR: ${{ github.workspace }}\5.15.2\mingw81_64
+        with:
+          path: ${{ github.workspace }}\5.15.2\mingw81_64
+          key: ${{ runner.os }}-qt-5.15.2_win64_mingw81
+
+      - name: Install Qt
+        if: steps.qt-cache.outputs.cache-hit != 'true'
+        env:
+          QT_DIR: ${{ github.workspace }}\5.15.2\mingw81_64
         run: |
           pip install aqtinstall
-          python -m aqt install 5.15.2 windows desktop win64_msvc2019_64
+          python -m aqt install 5.15.2 windows desktop win64_mingw81
           Add-Content -Path $env:GITHUB_ENV -Value "CMAKE_PREFIX_PATH=$env:QT_DIR;$env:QT_DIR\lib\cmake"
           Add-Content -Path $env:GITHUB_PATH -Value "${{ env.qt_dir }}"
           Add-Content -Path $env:GITHUB_PATH -Value "${{ env.qt_dir }}\bin"
 
       - name: Configure
+        env:
+          CMAKE_GENERATOR: MinGW Makefiles
         run: cmake -B build -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build
@@ -33,4 +45,9 @@ jobs:
 
       - name: Test
         working-directory: ${{ github.workspace }}/build
-        run: ctest -VV -C Debug
+        run: |
+          ctest -VV -C Debug
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
