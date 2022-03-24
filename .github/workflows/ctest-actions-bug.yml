@@ -15,7 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cached Qt Install
+        id: qt-cache
+        uses: actions/cache@v3
+        env:
+          QT_DIR: ${{ github.workspace }}\5.15.2\msvc2019_64
+        with:
+          path: ${{ github.workspace }}\5.15.2\msvc2019_64
+          key: ${{ runner.os }}-qt-5.15.2_win64_msvc2019
+
       - name: Install Qt
+        if: steps.qt-cache.outputs.cache-hit != 'true'
         env:
           QT_DIR: ${{ github.workspace }}\5.15.2\msvc2019_64
         run: |
@@ -34,12 +44,8 @@ jobs:
       - name: Test
         working-directory: ${{ github.workspace }}/build
         run: |
-          ctest -VV -C Debug --output-log log.txt | Out-Null
-          type log.txt
+          ctest -VV -C Debug
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: CTest Logs
-          path: build/Testing/Temporary/LastTest.log
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
