@@ -27,7 +27,7 @@ jobs:
       - name: Install Qt
         if: steps.qt-cache.outputs.cache-hit != 'true'
         env:
-          QT_DIR: ${{ github.workspace }}\5.15.2\msvc2019_64
+          QT_DIR: ${{ github.workspace }}\5.15.2\mingw81_64
         run: |
           pip install aqtinstall
           python -m aqt install 5.15.2 windows desktop win64_mingw81
